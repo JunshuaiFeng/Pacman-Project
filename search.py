@@ -87,7 +87,7 @@ def depthFirstSearch(problem):
     stack = util.Stack() # tuple: (cords, path)
     visited = []
     start = problem.getStartState()
-    stack.push((start, []))
+    stack.push((start, {}))
 
     while True:
         if stack.isEmpty(): return None
@@ -99,7 +99,7 @@ def depthFirstSearch(problem):
         if nextNode[0] not in visited:
             visited.append(nextNode[0])
             children = problem.getSuccessors(nextNode[0])
-            # print "current:", nextNode, "stack:", stack.list
+
             for child in children:
                 direction = list(nextNode[1])
                 direction.append(child[1])
@@ -109,31 +109,33 @@ def depthFirstSearch(problem):
             # print "visited:", visited
 
 # python pacman.py -l mediumMaze -p SearchAgent -a fn=depthFirstSearch
-
+# git add search.py
+# git commit -m "finished DFS"
+# git log
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
 
-    stack = util.Stack() # tuple: (cords, path)
+    q = util.Queue() # tuple: (cords, path)
     visited = []
     start = problem.getStartState()
-    stack.push((start, []))
+    q.push((start, {}))
 
     while True:
-        if stack.isEmpty(): return None
+        if q.isEmpty(): return None
 
-        nextNode = stack.pop()
+        nextNode = q.pop()
         if problem.isGoalState(nextNode[0]):
             return nextNode[1]
 
         if nextNode[0] not in visited:
             visited.append(nextNode[0])
             children = problem.getSuccessors(nextNode[0])
-            # print "current:", nextNode, "stack:", stack.list
+
             for child in children:
                 direction = list(nextNode[1])
                 direction.append(child[1])
-                stack.push((child[0], direction))
+                q.push((child[0], direction))
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
