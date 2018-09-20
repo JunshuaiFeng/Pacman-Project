@@ -153,11 +153,6 @@ def uniformCostSearch(problem):
                 direction.append(child[1])
                 pq.push((child[0], direction), problem.getCostOfActions(direction))
 
-# python pacman.py -l mediumMaze -p SearchAgent -a fn=depthFirstSearch
-# git add search.py
-# git commit -m "finished DFS"
-# git log
-
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
@@ -167,8 +162,29 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    pq = util.PriorityQueue()  # tuple: ((cords, path), backCost + forwardCost)
+    visited = set() # has to use set instead of list
+    start = problem.getStartState()
+    totalCost = problem.getCostOfActions({}) + heuristic(problem.getStartState(), problem)
+    pq.push((start, {}),  + totalCost)
+
+    while True:
+        if pq.isEmpty(): return None
+
+        nextNode = pq.pop()
+        if problem.isGoalState(nextNode[0]):
+            return nextNode[1]
+
+        if nextNode[0] not in visited:
+            visited.add(nextNode[0])
+
+            children = problem.getSuccessors(nextNode[0])
+            for child in children:
+                direction = list(nextNode[1])
+                direction.append(child[1])
+                hCost = heuristic(child[0], problem)
+                pq.push((child[0], direction), problem.getCostOfActions(direction) + hCost)
 
 
 # Abbreviations
