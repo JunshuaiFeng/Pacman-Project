@@ -387,7 +387,7 @@ def cornersHeuristic(state, problem):
 
     "*** YOUR CODE HERE ***"
     xy1 = state[0]
-    values = []
+    cornerDistList = []
 
     for i in range(len(state[1])):
         if state[1][i] == False:
@@ -395,11 +395,11 @@ def cornersHeuristic(state, problem):
             nextState = list(state[1])
             nextState[i] = True  # avoid hitting same corner twice
             nextHDistance = cornersHeuristic((corners[i], tuple(nextState)), problem)
-            values.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) + nextHDistance)
+            cornerDistList.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) + nextHDistance)
 
     optimal = 0
-    if len(values) > 0:
-        optimal = min(values)
+    if len(cornerDistList) > 0:
+        optimal = min(cornerDistList)
 
     return optimal
 
@@ -558,7 +558,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.bfs(problem)
 
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -595,7 +595,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x, y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return state in self.food.asList()
 
 
 def mazeDistance(point1, point2, gameState):
