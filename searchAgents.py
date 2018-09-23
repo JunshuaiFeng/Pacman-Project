@@ -502,7 +502,30 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+
+    # initialize distanceDict
+    try:
+        problem.heuristicInfo['d']
+    except:
+        problem.heuristicInfo['d'] = {}
+    distanceDict = problem.heuristicInfo['d']
+
+    foods = foodGrid.asList()
+    if not foods:
+        return 0
+
+    # use map to find distance from position to each food pellet
+    def allFoodDist(f):
+        if (position, f) in distanceDict.keys():
+            return distanceDict[(position, f)]
+        else:
+            mazeDist = mazeDistance(position, f, problem.startingGameState)
+            distanceDict[(position, f)] = mazeDist
+            return mazeDist
+
+    toAllFoodDistance = map(allFoodDist, foods)
+    furthestDistance = max(toAllFoodDistance)
+    return furthestDistance
 
 
 class ClosestDotSearchAgent(SearchAgent):

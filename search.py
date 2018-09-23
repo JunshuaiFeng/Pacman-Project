@@ -84,7 +84,7 @@ def depthFirstSearch(problem):
 
     """
 
-    stack = util.Stack() # tuple: (cords, path)
+    stack = util.Stack()  # tuple: (cords, path)
     visited = []
     start = problem.getStartState()
     stack.push((start, []))
@@ -164,7 +164,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
 
     pq = util.PriorityQueue()  # tuple: ((cords, path), backCost + forwardCost)
-    visited = set() # has to use set instead of list
+    visited = set()  # has to use set instead of list
     start = problem.getStartState()
     totalCost = problem.getCostOfActions({}) + heuristic(problem.getStartState(), problem)
     pq.push((start, {}),  + totalCost)
